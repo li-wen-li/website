@@ -1,24 +1,24 @@
-baseURL: https://example.com
+baseURL: https://linearfragility.com
 languageCode: en
 DefaultContentLanguage: en
-title: Website of Jane Doe
+title: Linear Fragility
 theme: anatole
-summarylength: 10
+summarylength: 3
 enableEmoji: yes
 enableRobotsTXT: yes
 pygmentsUseClasses: yes
 pygmentsCodeFences: yes
 pygmentsCodefencesGuessSyntax: yes
 params:
-  author: Jane Doe
+  author: Linear Fragility
   customCss: []
   customJs: []
-  description: Call me Jane
+  description: Linear Fragility describes nothing
   doNotLoadAnimations: no
   favicon: favicons/
-  images: images/site-feature-image.png
+  images: 
   keywords: ''
-  mainSections: post
+  mainSections: post 青春日记 Tuesday-Writing
   math:
     enable: no
     use: katex
@@ -27,17 +27,17 @@ params:
   socialIcons:
     - icon: fab fa-linkedin
       title: Linkedin
-      url: https://de.linkedin.com/
+      url: https://linkedin.com/in/liwen5
     - icon: fab fa-github
       title: GitHub
-      url: https://github.com/lxndrblz/anatole/
+      url: https://github.com/li-wen-li
     - icon: fab fa-instagram
       title: instagram
-      url: https://www.instagram.com/
-    - icon: fas fa-envelope
-      title: e-mail
-      url: mailto:mail@example.com
-  title: I'm Jane Doe
+      url: https://www.instagram.com/_7_am
+    - icon: fab fa-weixin
+      title: Wechat
+      url: images/wechat.JPG
+  title: Linear Fragility
 menu:
   main:
     - identifier: home
@@ -45,14 +45,22 @@ menu:
       url: /
       weight: 100
     - identifier: posts
-      name: Posts
+      name: Tech R
       url: /post/
       weight: 200
-    - identifier: about
-      name: About
-      url: /about/
+    - identifier: 青春日记
+      name: 青春日记
+      url: /青春日记/
       weight: 300
-    - identifier: contact
-      name: Contact
-      url: /contact/
-      weight: 400
+    - identifier: Tuesday Writing
+      name: Tuesday Writing
+      url: /Tuesday-Writing/
+      weight: 300
+    #- identifier: about
+    #  name: About
+    #  url: /about/
+    #  weight: 300
+    #- identifier: contact
+    #  name: Contact
+    #  url: /contact/
+    #  weight: 400
