@@ -22,7 +22,9 @@ output: html_document
   stringr,
   dplyr
 )</code></pre>
+<blockquote>
 <p>I created the package <em>uszipcodes</em> and it is available in my <a href="https://github.com/li-wen-li/uszipcodes"><em>github</em></a>. It includes zip code location data and some handy functions to clean data.</p>
+</blockquote>
 <pre class="r"><code>beers &lt;- read.csv(&quot;~/R_Projects/my_website/website/content/post/2021-04-09-mapping-breweries-in-us-with-leaflet-in-r/breweries_us.csv&quot;) ## data downloaded from https://www.kaggle.com/brkurzawa/us-breweries
 colnames(beers)</code></pre>
 <pre><code>## [1] &quot;brewery_name&quot;    &quot;type&quot;            &quot;address&quot;         &quot;website&quot;        
@@ -50,5 +52,3 @@ beer_map &lt;- leaflet(beer_location) %&gt;%
              popup = content$popup,
              icon = beer_icon
   )</code></pre>
-  
-<iframe src="/figures/beer_map.html" height="400" width="500" title="US Breweries"></iframe>

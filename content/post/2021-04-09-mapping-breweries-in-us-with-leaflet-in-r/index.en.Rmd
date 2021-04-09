@@ -23,7 +23,7 @@ pacman::p_load(
 )
 ```
 
-I created the package _uszipcodes_ and it is available in my [_github_](https://github.com/li-wen-li/uszipcodes). It includes zip code location data and some handy functions to clean data.
+>I created the package _uszipcodes_ and it is available in my [_github_](https://github.com/li-wen-li/uszipcodes). It includes zip code location data and some handy functions to clean data.
 
 ```{r}
 beers <- read.csv("~/R_Projects/my_website/website/content/post/2021-04-09-mapping-breweries-in-us-with-leaflet-in-r/breweries_us.csv") ## data downloaded from https://www.kaggle.com/brkurzawa/us-breweries
