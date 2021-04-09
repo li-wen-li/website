@@ -1,5 +1,5 @@
 ---
-title: Dealing With Uncertainty and Decision Making in Daily Life
+title: Decision Making Under Uncertainty in Daily Life
 author: Linear Fragility
 date: '2021-04-09'
 slug: []
