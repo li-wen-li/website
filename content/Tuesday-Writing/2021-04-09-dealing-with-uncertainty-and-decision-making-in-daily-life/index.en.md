@@ -8,6 +8,7 @@ categories:
 tags:
   - probability
   - life
+thumbnail: images/decision1.png
 ---
 
 Today, lets talk about some psychologies associated with decision making under uncertainty.
