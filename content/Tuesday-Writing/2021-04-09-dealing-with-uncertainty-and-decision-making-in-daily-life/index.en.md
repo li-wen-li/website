@@ -15,20 +15,19 @@ Today, lets talk about some psychologies associated with decision making under u
 
 In a video I made before, {{<youtube sMFy5HNK9Kw>}} 
 
-I used a dice example to demonstrate the mathematical term *Expectation*, we figured the expectation in the dice problem was 3.5. There was a quite important idea in that formula: probabilitties for each outcome was 1/6, which eventually add up tp a sum of 1. Correct, this  is eventually the key idea, all probabilities add up to 1.
+I used a dice example to demonstrate the mathematical term *Expectation*, we figured the expectation in the dice problem was 3.5. There was a quite important idea in that formula: probabilities for each outcome was 1/6, which eventually add up to a sum of 1. Correct, this is eventually the key idea, all probabilities add up to 1.
 
-Let me first introduce a paper, *Belief-Based Account of Decision Under Uncertainty*, by Craig Fox, a Psychology professor from UCLA, in 1998. He disigned an experiment in which students (46 man, 4 woman) from Northwestern University, who had watched NBA in the regular season, sat down and estimated the probability that each of the eight teams in quarter final round would win the playoff.
+Let me first introduce a paper, *Belief-Based Account of Decision Under Uncertainty*, by Craig Fox, a Psychology professor from UCLA, in 1998. He designed an experiment in which students (46 man, 4 woman) from Northwestern University, who had watched NBA in the regular season, sat down and estimated the probability that each of the eight teams in quarter final round would win the playoff.
 
-## insert the paper figure here
 ![Paper by Fox](/figures/belief_based_NBA.png)
 
 
 Take a moment and try to find out if this figure appears any suspicious to you.
 
 If you did pay attention, you should be able to observe that probabilities for each of the eight teams added up to 2.18, which is 218%.
-Probabilitites for each division added up to 1.44, 144% and for conference, they add up to just about 1.
+Probabilities for each division added up to 1.44, 144% and for conference, they add up to just about 1.
 
-Now, thi s result is absolutely absurd and against what we had learned about the probability fact that probabilities for all possible events should sum up to one.
+Now, this result is absolutely absurd and against what we had learned about the probability fact that probabilities for all possible events should sum up to one.
 
 #### Well, what happened in that experiment?
 
