@@ -33,7 +33,7 @@ But it happened. God sent him a cargo ship out of nowhere, God led him to sail i
 
 Here is the math:
 
-Let \\(X \\) be a random variable representing the distance between you and the cargo ship. Then I can simply figure out the expectation of \\(X \\), and use that value to determine if I should risk the sailing part (I dont know how to swim).
+Let \\(X \\) be a random variable representing the distance between me and the cargo ship. Then I can simply figure out the expectation of \\(X \\), and use that value to determine if I should risk the sailing part (I dont know how to swim).
 
 Well, to calculate the expectation of \\(X \\), I will need its probability density function, say \\(f(x) \\), then the \\(E(X) = \int_0^{R} x f(x) dx \\), in which \\(R \\) represents the radius of the circle.
 
