@@ -25,7 +25,11 @@ params:
   profilePicture: images/profile.jpg
   simpleAnalytics: {}
   gtagID: {G-M9S9TJ77JE}
-  socialIcons:
+  utterances:
+    repo: https://github.com/li-wen-li/website.git
+    issueTerm: pathname
+    theme: preferred-color-scheme
+    socialIcons:
     - icon: fab fa-linkedin
       title: Linkedin
       url: https://linkedin.com/in/liwen5
