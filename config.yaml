@@ -24,7 +24,7 @@ params:
     use: katex
   profilePicture: images/profile.jpg
   simpleAnalytics: {}
-  gtagID: G-M9S9TJ77JE
+  gtagID: {G-M9S9TJ77JE}
   socialIcons:
     - icon: fab fa-linkedin
       title: Linkedin
