@@ -24,7 +24,7 @@ params:
     use: katex
   profilePicture: images/profile.jpg
   simpleAnalytics: {}
-  googleSiteVerify: Si6KerGR2J2Kb3OquTjdx4EwAuKfAG5LkT7l2b2hjls
+  gtagID: G-M9S9TJ77JE
   socialIcons:
     - icon: fab fa-linkedin
       title: Linkedin
