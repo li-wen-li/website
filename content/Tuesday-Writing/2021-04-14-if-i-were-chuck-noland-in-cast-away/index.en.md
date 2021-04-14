@@ -7,7 +7,7 @@ categories:
   - Math Life
 tags:
   - probability
-  - nearest neighbor
+  - math in movie
 thumbnail: videos/castaway_math.mp4
 ---
 
