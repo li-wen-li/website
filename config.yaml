@@ -20,7 +20,7 @@ params:
   keywords: ''
   mainSections: post 青春日记 Tuesday-Writing
   math:
-    enable: no
+    enable: yes
     use: katex
   profilePicture: images/profile.jpg
   simpleAnalytics: {}
