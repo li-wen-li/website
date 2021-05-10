@@ -20,6 +20,8 @@ thumbnail: images/DogeCoin-header.jpg
 <script src="{{< blogdown/postref >}}index.en_files/wordcloud2-binding/wordcloud2.js"></script>
 
 
+<p><em>Dogecoin has been the topic over internet communities like Twitter and Reddit. It soared more than 20,000 % for the past year. This article has absolutely no analysis in a financial sense. I am simply curious about how and when the madness of dogecoin started.</em></p>
+<p>First, lets take a look at how people across the whole nation is curious about this thing Dogecoin. And here lets use Google Trend.</p>
 <pre class="r"><code>## Libraries needed
 library(gtrendsR)
 library(tidyverse)
@@ -28,8 +30,6 @@ library(ggplot2)
 library(wordcloud2)
 library(stringr)
 library(tm)</code></pre>
-<p><em>Dogecoin has been the topic over internet communities like Twitter and Reddit. It soared more than 20,000 % for the past year. This article has absolutely no analysis in a financial sense. I am simply curious about how and when the madness of dogecoin started.</em></p>
-<p>First, lets take a look at how people across the whole nation is curious about this thing Dogecoin. And here lets use Google Trend.</p>
 <pre class="r"><code>dogecoin &lt;- gtrends(&quot;dogecoin&quot;,geo = &quot;US&quot;, time = &quot;today 3-m&quot;) 
 dogecoin_by_state &lt;- dogecoin$interest_by_region
 dogecoin_by_state$fips &lt;- cdlTools::fips(dogecoin_by_state$location)
@@ -45,9 +45,20 @@ plot_usmap(data = dogecoin_by_state, values = &quot;hits&quot;,  color = &quot;#
 <p>Darker blue indicates Dogecoin being searched often within that state.</p>
 <p>Let’s figure which states are the top 10 when it comes to the meme crypto.</p>
 <pre class="r"><code>top10_doge_state &lt;- head(dogecoin$interest_by_region[order(dogecoin$interest_by_region$hits, decreasing = TRUE), ], n = 10)
-print(top10_doge_state$location)</code></pre>
-<pre><code>##  [1] &quot;Alaska&quot;       &quot;Rhode Island&quot; &quot;California&quot;   &quot;North Dakota&quot; &quot;New Jersey&quot;  
-##  [6] &quot;Washington&quot;   &quot;Florida&quot;      &quot;Arizona&quot;      &quot;Oregon&quot;       &quot;New York&quot;</code></pre>
+top10_doge_state &lt;- top10_doge_state[ , c(1,2)]
+colnames(top10_doge_state) &lt;- c(&quot;State&quot;,&quot;Hits&quot;)
+top10_doge_state</code></pre>
+<pre><code>##           State Hits
+## 1        Alaska  100
+## 2  Rhode Island   95
+## 3    California   94
+## 4  North Dakota   93
+## 5    New Jersey   92
+## 6    Washington   91
+## 7       Florida   84
+## 8       Arizona   83
+## 9        Oregon   81
+## 10     New York   81</code></pre>
 <p>Well, Alaska, as the top state in this list. It really surprised me. I simply cannot relate crypto currency with, I dont know, salmon? aurora?</p>
 <p>How about top 10 DMA? DMA stands for Designated Market Areas, it is used to define television and radio markets, since it covers both metropolitan and suburban areas, I figure it could be our interest to explore the spread of ‘madness of Dogecoin’.</p>
 <pre class="r"><code>top10_doge_dma &lt;- head(dogecoin$interest_by_dma[order(dogecoin$interest_by_dma$hits, decreasing = TRUE), ], n = 10)
@@ -68,8 +79,15 @@ print(top10_doge_dma$location)</code></pre>
   geom_text(aes(label=hits), hjust= -0.1, color=&quot;black&quot;, size=3) + 
   coord_flip()</code></pre>
 <p><img src="{{< blogdown/postref >}}index.en_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
+<blockquote>
+<p>By the time of writing, Google Trend data shows <strong>Fairbanks Alaska</strong> as the top DMA in the category. Google Trend data changes over time.</p>
+</blockquote>
+<blockquote>
 <p>People from Fairbanks Alaska certainly furious about the crypto currency. I did a little research, the median age of Fairbanks population is only 28 years and the median household income is around 55 k which is 13 k lower than the nation household income.</p>
+</blockquote>
+<blockquote>
 <p>As a young broke man myself, folks from Fairbanks Alaska, God bless all of you and I wish you could make a fortune off Dogecoin and take the profit.</p>
+</blockquote>
 <p>What other topics or information are being searched over Google in the wake of Dogecoin?</p>
 <pre class="r"><code>doge_queries &lt;- str_c(dogecoin$related_queries$value, collapse = &quot; &quot;)
 doge_text &lt;- Corpus(VectorSource(doge_queries))

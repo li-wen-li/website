@@ -12,6 +12,10 @@ tags:
 thumbnail: images/DogeCoin-header.jpg
 ---
 
+_Dogecoin has been the topic over internet communities like Twitter and Reddit. It soared more than 20,000 % for the past year. This article has absolutely no analysis in a financial sense. I am simply curious about how and when the madness of dogecoin started._
+
+First, lets take a look at how people across the whole nation is curious about this thing Dogecoin. And here lets use Google Trend.
+
 ```{r message=FALSE} 
 ## Libraries needed
 library(gtrendsR)
@@ -22,10 +26,6 @@ library(wordcloud2)
 library(stringr)
 library(tm)
 ```
-
-_Dogecoin has been the topic over internet communities like Twitter and Reddit. It soared more than 20,000 % for the past year. This article has absolutely no analysis in a financial sense. I am simply curious about how and when the madness of dogecoin started._
-
-First, lets take a look at how people across the whole nation is curious about this thing Dogecoin. And here lets use Google Trend.
 
 ```{r}
 dogecoin <- gtrends("dogecoin",geo = "US", time = "today 3-m") 
@@ -47,10 +47,13 @@ Let's figure which states are the top 10 when it comes to the meme crypto.
 
 ```{r}
 top10_doge_state <- head(dogecoin$interest_by_region[order(dogecoin$interest_by_region$hits, decreasing = TRUE), ], n = 10)
-print(top10_doge_state$location)
+top10_doge_state <- top10_doge_state[ , c(1,2)]
+colnames(top10_doge_state) <- c("State","Hits")
+top10_doge_state
 ```
 
 Well, Alaska, as the top state in this list. It really surprised me. I simply cannot relate crypto currency with, I dont know, salmon? aurora? 
+
 
 How about top 10 DMA? DMA stands for Designated Market Areas, it is used to define television and radio markets, since it covers both metropolitan and suburban areas, I figure it could be our interest to explore the spread of 'madness of Dogecoin'.
 
@@ -65,9 +68,11 @@ ggplot(top10_doge_dma, aes(x = location, y = hits)) +
   coord_flip()
 ```
 
-People from Fairbanks Alaska certainly furious about the crypto currency. I did a little research, the median age of Fairbanks population is only 28 years and the median household income is around 55 k which is 13 k lower than the nation household income. 
+>By the time of writing, Google Trend data shows __Fairbanks Alaska__ as the top DMA in the category. Google Trend data changes over time. 
 
-As a young broke man myself, folks from Fairbanks Alaska, God bless all of you and I wish you could make a fortune off Dogecoin and take the profit.
+>People from Fairbanks Alaska certainly furious about the crypto currency. I did a little research, the median age of Fairbanks population is only 28 years and the median household income is around 55 k which is 13 k lower than the nation household income. 
+
+>As a young broke man myself, folks from Fairbanks Alaska, God bless all of you and I wish you could make a fortune off Dogecoin and take the profit.
 
 What other topics or information are being searched over Google in the wake of Dogecoin?
 
