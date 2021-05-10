@@ -1,0 +1,99 @@
+---
+title: Dogecoin Madness
+author: R package build
+date: '2021-05-10'
+slug: []
+categories:
+  - Data World
+tags:
+  - Data Visualization
+  - Google Trend
+  - R
+---
+
+```{r message=FALSE} 
+## Libraries needed
+library(gtrendsR)
+library(tidyverse)
+library(usmap)
+library(ggplot2)
+library(wordcloud2)
+library(stringr)
+library(tm)
+```
+
+### _Dogecoin has been the topic over internet communities like Twitter and Reddit. It soared more than 20,000 % for the past year. This article has absolutely no analysis in a financial sense. I am simply curious about how and when the madness of dogecoin started._
+
+#### First, lets take a look at how people across the whole nation is curious about this thing Dogecoin. And here lets use Google Trend.
+
+```{r}
+dogecoin <- gtrends("dogecoin",geo = "US", time = "today 3-m") 
+dogecoin_by_state <- dogecoin$interest_by_region
+dogecoin_by_state$fips <- cdlTools::fips(dogecoin_by_state$location)
+
+plot_usmap(data = dogecoin_by_state, values = "hits",  color = "#4bb9c9", labels=FALSE) + 
+  scale_fill_continuous( low = "white", high = "#4bb9c9", 
+                         name = "Popularity", label = scales::comma
+  ) + 
+  theme(legend.position = "right") + 
+  theme(panel.background = element_rect(colour = "black")) + 
+  labs(title = "How people across nation is furious about Dogecoin", subtitle = "Measured by Google Hits", caption = "Source: @Linear Fragility")
+```
+
+#### Darker blue indicates Dogecoin being searched often within that state.
+
+#### Let's figure which states are the top 10 when it comes to the meme crypto.
+
+```{r}
+top10_doge_state <- head(dogecoin$interest_by_region[order(dogecoin$interest_by_region$hits, decreasing = TRUE), ], n = 10)
+print(top10_doge_state$location)
+```
+
+#### Well, Alaska, as the top state in this list. It really surprised me. I simply cannot relate crypto currency with, I dont know, salmon? aurora? 
+
+#### How about top 10 DMA? DMA stands for Designated Market Areas, it is used to define television and radio markets, since it covers both metropolitan and suburban areas, I figure it could be our interest to explore the spread of 'madness of Dogecoin'.
+
+```{r}
+top10_doge_dma <- head(dogecoin$interest_by_dma[order(dogecoin$interest_by_dma$hits, decreasing = TRUE), ], n = 10)
+print(top10_doge_dma$location)
+
+ggplot(top10_doge_dma, aes(x = location, y = hits)) +
+  geom_bar(stat = "identity", fill = "#4bb9c9") +
+  theme_classic() +
+  geom_text(aes(label=hits), hjust= -0.1, color="black", size=3) + 
+  coord_flip()
+```
+
+#### People from Fairbanks Alaska certainly furious about the crypto currency. I did a little research, the median age of Fairbanks population is only 28 years and the median household income is around 55 k which is 13 k lower than the nation household income. 
+
+#### As a young broke man myself, folks from Fairbanks Alaska, God bless all of you and I wish you could make a fortune off Dogecoin and take the profit.
+
+#### What other topics or information are being searched over Google in the wake of Dogecoin?
+
+```{r}
+doge_queries <- str_c(dogecoin$related_queries$value, collapse = " ")
+doge_text <- Corpus(VectorSource(doge_queries))
+doge_matrix <- TermDocumentMatrix(text)
+m <- as.matrix(doge_matrix)
+v <- sort(rowSums(m), decreasing = TRUE)
+d <- data.frame(word = names(v), freq = v)
+set.seed(199207)
+wordcloud2(d, size = 2)
+                 
+```
+
+
+```{r}
+dogecoin_by_time <- dogecoin$interest_over_time
+
+time_plot <- ggplot(data = dogecoin_by_time ,aes(x=date, y=hits)) +
+  geom_area(fill="#05f5dd", alpha=0.1) +
+  geom_line(color="#05f5dd") +
+  labs(title = "Popularity of Dogecoin", subtitle = "Measured by Google Hits", caption = "Source: @Linear Fragility")
+
+```
+
+
+
+
+

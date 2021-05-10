@@ -1,0 +1,85 @@
+---
+title: Dogecoin Madness
+author: R package build
+date: '2021-05-10'
+slug: []
+categories:
+  - Data World
+tags:
+  - Data Visualization
+  - Google Trend
+  - R
+---
+
+<script src="{{< blogdown/postref >}}index.en_files/header-attrs/header-attrs.js"></script>
+
+
+<pre class="r"><code>## Libraries needed
+library(gtrendsR)
+library(tidyverse)
+library(usmap)
+library(ggplot2)</code></pre>
+<div id="dogecoin-has-been-the-topic-over-internet-communities-like-twitter-and-reddit.-it-soared-more-than-20000-for-the-past-year.-this-article-has-absolutely-no-analysis-in-a-financial-sense.-i-am-simply-curious-about-how-and-when-the-madness-of-dogecoin-started." class="section level3">
+<h3><em>Dogecoin has been the topic over internet communities like Twitter and Reddit. It soared more than 20,000 % for the past year. This article has absolutely no analysis in a financial sense. I am simply curious about how and when the madness of dogecoin started.</em></h3>
+<div id="first-lets-take-a-look-at-how-people-across-the-whole-nation-is-curious-about-this-thing-dogecoin.-and-here-lets-use-google-trend." class="section level4">
+<h4>First, lets take a look at how people across the whole nation is curious about this thing Dogecoin. And here lets use Google Trend.</h4>
+<pre class="r"><code>dogecoin &lt;- gtrends(&quot;dogecoin&quot;,geo = &quot;US&quot;, time = &quot;today 3-m&quot;) 
+dogecoin_by_state &lt;- dogecoin$interest_by_region
+dogecoin_by_state$fips &lt;- cdlTools::fips(dogecoin_by_state$location)
+
+plot_usmap(data = dogecoin_by_state, values = &quot;hits&quot;,  color = &quot;#4bb9c9&quot;, labels=FALSE) + 
+  scale_fill_continuous( low = &quot;white&quot;, high = &quot;#4bb9c9&quot;, 
+                         name = &quot;Popularity&quot;, label = scales::comma
+  ) + 
+  theme(legend.position = &quot;right&quot;) + 
+  theme(panel.background = element_rect(colour = &quot;black&quot;)) + 
+  labs(title = &quot;How people across nation is furious about Dogecoin&quot;, subtitle = &quot;Measured by Google Hits&quot;, caption = &quot;Source: @Linear Fragility&quot;)</code></pre>
+<p><img src="{{< blogdown/postref >}}index.en_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
+</div>
+<div id="darker-blue-indicates-dogecoin-being-searched-often-within-that-state." class="section level4">
+<h4>Darker blue indicates Dogecoin being searched often within that state.</h4>
+</div>
+<div id="lets-figure-which-states-are-the-top-10-when-it-comes-to-the-meme-crypto." class="section level4">
+<h4>Let’s figure which states are the top 10 when it comes to the meme crypto.</h4>
+<pre class="r"><code>top10_doge_state &lt;- head(dogecoin$interest_by_region[order(dogecoin$interest_by_region$hits, decreasing = TRUE), ], n = 10)
+print(top10_doge_state$location)</code></pre>
+<pre><code>##  [1] &quot;Alaska&quot;       &quot;Rhode Island&quot; &quot;California&quot;   &quot;North Dakota&quot; &quot;New Jersey&quot;  
+##  [6] &quot;Washington&quot;   &quot;Florida&quot;      &quot;Arizona&quot;      &quot;Oregon&quot;       &quot;New York&quot;</code></pre>
+</div>
+<div id="well-alaska-as-the-top-state-in-this-list.-it-really-surprised-me.-i-simply-cannot-relate-crypto-currency-with-i-dont-know-salmon-aurora" class="section level4">
+<h4>Well, Alaska, as the top state in this list. It really surprised me. I simply cannot relate crypto currency with, I dont know, salmon? aurora?</h4>
+</div>
+<div id="how-about-top-10-dma-dma-stands-for-designated-market-areas-it-is-used-to-define-television-and-radio-markets-since-it-covers-both-metropolitan-and-suburban-areas-i-figure-it-could-be-our-interest-to-explore-the-spread-of-madness-of-dogecoin." class="section level4">
+<h4>How about top 10 DMA? DMA stands for Designated Market Areas, it is used to define television and radio markets, since it covers both metropolitan and suburban areas, I figure it could be our interest to explore the spread of ‘madness of Dogecoin’.</h4>
+<pre class="r"><code>top10_doge_dma &lt;- head(dogecoin$interest_by_dma[order(dogecoin$interest_by_dma$hits, decreasing = TRUE), ], n = 10)
+print(top10_doge_dma$location)</code></pre>
+<pre><code>##  [1] &quot;Glendive MT&quot;                           
+##  [2] &quot;Fairbanks AK&quot;                          
+##  [3] &quot;San Diego CA&quot;                          
+##  [4] &quot;Sacramento-Stockton-Modesto CA&quot;        
+##  [5] &quot;Victoria TX&quot;                           
+##  [6] &quot;Bend OR&quot;                               
+##  [7] &quot;San Francisco-Oakland-San Jose CA&quot;     
+##  [8] &quot;Minot-Bismarck-Dickinson(Williston) ND&quot;
+##  [9] &quot;Seattle-Tacoma WA&quot;                     
+## [10] &quot;Los Angeles CA&quot;</code></pre>
+<pre class="r"><code>ggplot(top10_doge_dma, aes(x = location, y = hits)) +
+  geom_bar(stat = &quot;identity&quot;, fill = &quot;#4bb9c9&quot;) +
+  theme_classic() +
+  geom_text(aes(label=hits), hjust= -0.1, color=&quot;black&quot;, size=3) + 
+  coord_flip()</code></pre>
+<p><img src="{{< blogdown/postref >}}index.en_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
+</div>
+<div id="people-from-fairbanks-alaska-certainly-furious-about-the-crypto-currency.-i-did-a-little-research-the-median-age-of-fairbanks-population-is-only-28-years-and-the-median-household-income-is-around-55-k-which-is-13-k-lower-than-the-nation-household-income." class="section level4">
+<h4>People from Fairbanks Alaska certainly furious about the crypto currency. I did a little research, the median age of Fairbanks population is only 28 years and the median household income is around 55 k which is 13 k lower than the nation household income.</h4>
+</div>
+<div id="as-a-young-broke-man-myself-folks-from-fairbanks-alaska-god-bless-all-of-you-and-i-wish-you-could-make-a-fortune-off-dogecoin-and-take-the-profit." class="section level4">
+<h4>As a young broke man myself, folks from Fairbanks Alaska, God bless all of you and I wish you could make a fortune off Dogecoin and take the profit.</h4>
+<pre class="r"><code>dogecoin_by_time &lt;- dogecoin$interest_over_time
+
+time_plot &lt;- ggplot(data = dogecoin_by_time ,aes(x=date, y=hits)) +
+  geom_area(fill=&quot;#05f5dd&quot;, alpha=0.1) +
+  geom_line(color=&quot;#05f5dd&quot;) +
+  labs(title = &quot;Popularity of Dogecoin&quot;, subtitle = &quot;Measured by Google Hits&quot;, caption = &quot;Source: @Linear Fragility&quot;)</code></pre>
+</div>
+</div>
