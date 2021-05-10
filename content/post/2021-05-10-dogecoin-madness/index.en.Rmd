@@ -9,6 +9,7 @@ tags:
   - Data Visualization
   - Google Trend
   - R
+thumbnail: images/DogeCoin-header.jpg
 ---
 
 ```{r message=FALSE} 
@@ -22,9 +23,9 @@ library(stringr)
 library(tm)
 ```
 
-### _Dogecoin has been the topic over internet communities like Twitter and Reddit. It soared more than 20,000 % for the past year. This article has absolutely no analysis in a financial sense. I am simply curious about how and when the madness of dogecoin started._
+_Dogecoin has been the topic over internet communities like Twitter and Reddit. It soared more than 20,000 % for the past year. This article has absolutely no analysis in a financial sense. I am simply curious about how and when the madness of dogecoin started._
 
-#### First, lets take a look at how people across the whole nation is curious about this thing Dogecoin. And here lets use Google Trend.
+First, lets take a look at how people across the whole nation is curious about this thing Dogecoin. And here lets use Google Trend.
 
 ```{r}
 dogecoin <- gtrends("dogecoin",geo = "US", time = "today 3-m") 
@@ -40,18 +41,18 @@ plot_usmap(data = dogecoin_by_state, values = "hits",  color = "#4bb9c9", labels
   labs(title = "How people across nation is furious about Dogecoin", subtitle = "Measured by Google Hits", caption = "Source: @Linear Fragility")
 ```
 
-#### Darker blue indicates Dogecoin being searched often within that state.
+Darker blue indicates Dogecoin being searched often within that state.
 
-#### Let's figure which states are the top 10 when it comes to the meme crypto.
+Let's figure which states are the top 10 when it comes to the meme crypto.
 
 ```{r}
 top10_doge_state <- head(dogecoin$interest_by_region[order(dogecoin$interest_by_region$hits, decreasing = TRUE), ], n = 10)
 print(top10_doge_state$location)
 ```
 
-#### Well, Alaska, as the top state in this list. It really surprised me. I simply cannot relate crypto currency with, I dont know, salmon? aurora? 
+Well, Alaska, as the top state in this list. It really surprised me. I simply cannot relate crypto currency with, I dont know, salmon? aurora? 
 
-#### How about top 10 DMA? DMA stands for Designated Market Areas, it is used to define television and radio markets, since it covers both metropolitan and suburban areas, I figure it could be our interest to explore the spread of 'madness of Dogecoin'.
+How about top 10 DMA? DMA stands for Designated Market Areas, it is used to define television and radio markets, since it covers both metropolitan and suburban areas, I figure it could be our interest to explore the spread of 'madness of Dogecoin'.
 
 ```{r}
 top10_doge_dma <- head(dogecoin$interest_by_dma[order(dogecoin$interest_by_dma$hits, decreasing = TRUE), ], n = 10)
@@ -64,11 +65,11 @@ ggplot(top10_doge_dma, aes(x = location, y = hits)) +
   coord_flip()
 ```
 
-#### People from Fairbanks Alaska certainly furious about the crypto currency. I did a little research, the median age of Fairbanks population is only 28 years and the median household income is around 55 k which is 13 k lower than the nation household income. 
+People from Fairbanks Alaska certainly furious about the crypto currency. I did a little research, the median age of Fairbanks population is only 28 years and the median household income is around 55 k which is 13 k lower than the nation household income. 
 
-#### As a young broke man myself, folks from Fairbanks Alaska, God bless all of you and I wish you could make a fortune off Dogecoin and take the profit.
+As a young broke man myself, folks from Fairbanks Alaska, God bless all of you and I wish you could make a fortune off Dogecoin and take the profit.
 
-#### What other topics or information are being searched over Google in the wake of Dogecoin?
+What other topics or information are being searched over Google in the wake of Dogecoin?
 
 ```{r}
 doge_queries <- str_c(dogecoin$related_queries$value, collapse = " ")
@@ -82,18 +83,38 @@ wordcloud2(d, size = 2)
                  
 ```
 
+You can find some pretty interesting topic here, for example, [Tilray](https://finance.yahoo.com/quote/TLRY?.tsrc=applewf), one of the marijuana stocks, it soared more than 500% within 3 month of its IPO in 2018.
+
+Elon Musk, Mark Cuban, the two real life mega business men, or 'internet celebrities', fueled the fame of Dogecoin over series of [Twitter posts](https://twitter.com/elonmusk).
+
+I am not aware of why Jeff Bezos and its Amazon is among the list of searching topics, but this is definitely worth a second look. These three folks are really successful individuals, with billions of dollars under their titles, people take their words without much hesitation. I clearly remembered Mark Cuban's [comment](https://www.cnbc.com/2021/02/08/mark-cuban-cryptocurrency-dogecoin-doesnt-have-intrinsic-value.html) on Doge coin in Febuary this year. He said "Doge coin has no intrisic value", now he is telling the whole world that he is taking Doge coin payment to his Mavericks. I sold my $1300 worth of Dogecoin at 7 cents in Febuary just because of his comment.  Now, I hate him, well, I hate myself little bit more.
+
+Anyways, my point is, there has been a scary trend that people are following the lead of certain individuals. Elon Musk, Mark Cuban, Jeff Bezos, or Jack Ma from Alibaba, Donald Trump from 2016, voices from certain individuals with certain background, are taking significant weight in our opinions regarding all different issues, social, economical, technical...
+
+
+To end my post today, lets take a look at time plot of the rise and fall of Doge Coin popularity over Google search.
 
 ```{r}
 dogecoin_by_time <- dogecoin$interest_over_time
 
-time_plot <- ggplot(data = dogecoin_by_time ,aes(x=date, y=hits)) +
+ggplot(data = dogecoin_by_time ,aes(x=date, y=hits)) +
   geom_area(fill="#05f5dd", alpha=0.1) +
   geom_line(color="#05f5dd") +
-  labs(title = "Popularity of Dogecoin", subtitle = "Measured by Google Hits", caption = "Source: @Linear Fragility")
+  labs(title = "Popularity of Dogecoin over time", subtitle = "Measured by Google Hits", caption = "Source: @Linear Fragility") +
+  theme_classic()
 
 ```
 
+The peak of search popularity between April and May is most likely inspired by Elon Musk's series of Twits about Dogecoin. 
 
+Lets talk about Elon Musk...
+
+No, 
+Lets not..
+
+Lets focus on ourselves. Be rational. 
+
+See you!
 
 
 
