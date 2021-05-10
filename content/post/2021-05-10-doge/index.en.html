@@ -1,0 +1,45 @@
+---
+title: doge
+author: R package build
+date: '2021-05-10'
+slug: []
+categories: []
+tags: []
+Description: ''
+Tags: []
+Categories: []
+DisableComments: no
+---
+
+<script src="{{< blogdown/postref >}}index.en_files/header-attrs/header-attrs.js"></script>
+
+
+<p>Dogecoin has been the topic over internet communities like Twitter and Reddit. It soared more than 20,000 % for the past year. This article has absolutely no analysis in a financial sense. I am simply curious about how and when the madness of dogecoin started.</p>
+<p>First, lets take a look at how people across the whole nation is curious about this thing Dogecoin. And here lets use Google Trend.</p>
+<pre class="r"><code>library(gtrendsR)
+library(tidyverse)</code></pre>
+<pre><code>## ── Attaching packages ─────────────────────────────────────── tidyverse 1.3.0 ──</code></pre>
+<pre><code>## ✓ ggplot2 3.3.3     ✓ purrr   0.3.4
+## ✓ tibble  3.1.0     ✓ dplyr   1.0.5
+## ✓ tidyr   1.1.3     ✓ stringr 1.4.0
+## ✓ readr   1.4.0     ✓ forcats 0.5.1</code></pre>
+<pre><code>## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+## x dplyr::filter() masks stats::filter()
+## x dplyr::lag()    masks stats::lag()</code></pre>
+<pre class="r"><code>library(usmap)
+
+dogecoin &lt;- gtrends(&quot;dogecoin&quot;,geo = &quot;US&quot;, time = &quot;today 3-m&quot;)
+dogecoin_by_state &lt;- dogecoin$interest_by_region
+dogecoin_by_state$fips &lt;- cdlTools::fips(dogecoin_by_state$location)
+plot_usmap(data = dogecoin_by_state, values = &quot;hits&quot;,  color = &quot;#4bb9c9&quot;, labels=FALSE) + 
+  scale_fill_continuous( low = &quot;white&quot;, high = &quot;#4bb9c9&quot;, 
+                         name = &quot;Popularity&quot;, label = scales::comma
+  ) + 
+  theme(legend.position = &quot;right&quot;) + 
+  theme(panel.background = element_rect(colour = &quot;black&quot;)) + 
+  labs(title = &quot;How people across nation is furious about Dogecoin&quot;, subtitle = &quot;Measured by Google Hits&quot;, caption = &quot;Source: @Linear Fragility&quot;)</code></pre>
+<p><img src="{{< blogdown/postref >}}index.en_files/figure-html/unnamed-chunk-1-1.png" width="672" /></p>
+<pre class="r"><code>top10_doge_state &lt;- head(dogecoin$interest_by_region[order(dogecoin$interest_by_region$hits, decreasing = TRUE), ], n = 10)
+print(top10_doge_state$location)</code></pre>
+<pre><code>##  [1] &quot;Alaska&quot;       &quot;Rhode Island&quot; &quot;California&quot;   &quot;North Dakota&quot; &quot;New Jersey&quot;  
+##  [6] &quot;Washington&quot;   &quot;Florida&quot;      &quot;Arizona&quot;      &quot;Oregon&quot;       &quot;New York&quot;</code></pre>
