@@ -12,13 +12,21 @@ tags:
 ---
 
 <script src="{{< blogdown/postref >}}index.en_files/header-attrs/header-attrs.js"></script>
+<script src="{{< blogdown/postref >}}index.en_files/htmlwidgets/htmlwidgets.js"></script>
+<link href="{{< blogdown/postref >}}index.en_files/wordcloud2/wordcloud.css" rel="stylesheet" />
+<script src="{{< blogdown/postref >}}index.en_files/wordcloud2/wordcloud2-all.js"></script>
+<script src="{{< blogdown/postref >}}index.en_files/wordcloud2/hover.js"></script>
+<script src="{{< blogdown/postref >}}index.en_files/wordcloud2-binding/wordcloud2.js"></script>
 
 
 <pre class="r"><code>## Libraries needed
 library(gtrendsR)
 library(tidyverse)
 library(usmap)
-library(ggplot2)</code></pre>
+library(ggplot2)
+library(wordcloud2)
+library(stringr)
+library(tm)</code></pre>
 <div id="dogecoin-has-been-the-topic-over-internet-communities-like-twitter-and-reddit.-it-soared-more-than-20000-for-the-past-year.-this-article-has-absolutely-no-analysis-in-a-financial-sense.-i-am-simply-curious-about-how-and-when-the-madness-of-dogecoin-started." class="section level3">
 <h3><em>Dogecoin has been the topic over internet communities like Twitter and Reddit. It soared more than 20,000 % for the past year. This article has absolutely no analysis in a financial sense. I am simply curious about how and when the madness of dogecoin started.</em></h3>
 <div id="first-lets-take-a-look-at-how-people-across-the-whole-nation-is-curious-about-this-thing-dogecoin.-and-here-lets-use-google-trend." class="section level4">
@@ -75,6 +83,19 @@ print(top10_doge_dma$location)</code></pre>
 </div>
 <div id="as-a-young-broke-man-myself-folks-from-fairbanks-alaska-god-bless-all-of-you-and-i-wish-you-could-make-a-fortune-off-dogecoin-and-take-the-profit." class="section level4">
 <h4>As a young broke man myself, folks from Fairbanks Alaska, God bless all of you and I wish you could make a fortune off Dogecoin and take the profit.</h4>
+</div>
+<div id="what-other-topics-or-information-are-being-searched-over-google-in-the-wake-of-dogecoin" class="section level4">
+<h4>What other topics or information are being searched over Google in the wake of Dogecoin?</h4>
+<pre class="r"><code>doge_queries &lt;- str_c(dogecoin$related_queries$value, collapse = &quot; &quot;)
+doge_text &lt;- Corpus(VectorSource(doge_queries))
+doge_matrix &lt;- TermDocumentMatrix(doge_text)
+m &lt;- as.matrix(doge_matrix)
+v &lt;- sort(rowSums(m), decreasing = TRUE)
+d &lt;- data.frame(word = names(v), freq = v)
+set.seed(199207)
+wordcloud2(d, size = 2)</code></pre>
+<div id="htmlwidget-1" style="width:672px;height:480px;" class="wordcloud2 html-widget"></div>
+<script type="application/json" data-for="htmlwidget-1">{"x":{"word":["dogecoin","price","elon","stock","today","bitcoin","buy","musk","safemoon","amazon","bezos","cardano","coinbase","crypto","ethereum","going","how","news","prediction","robinhood","value","will","$100","2021","4/20","420","accept","and","crash","cuban","did","doge","done","hcmc","jeff","jim","mark","much","one","reach","reddit","slim","tilray","usd","what","worth"],"freq":[34,9,4,4,4,3,3,3,3,2,2,2,2,2,2,2,2,2,2,2,2,2,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],"fontFamily":"Segoe UI","fontWeight":"bold","color":"random-dark","minSize":0,"weightFactor":10.5882352941176,"backgroundColor":"white","gridSize":0,"minRotation":-0.785398163397448,"maxRotation":0.785398163397448,"shuffle":true,"rotateRatio":0.4,"shape":"circle","ellipticity":0.65,"figBase64":null,"hover":null},"evals":[],"jsHooks":{"render":[{"code":"function(el,x){\n                        console.log(123);\n                        if(!iii){\n                          window.location.reload();\n                          iii = False;\n\n                        }\n  }","data":null}]}}</script>
 <pre class="r"><code>dogecoin_by_time &lt;- dogecoin$interest_over_time
 
 time_plot &lt;- ggplot(data = dogecoin_by_time ,aes(x=date, y=hits)) +

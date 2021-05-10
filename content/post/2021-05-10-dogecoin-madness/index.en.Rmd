@@ -73,7 +73,7 @@ ggplot(top10_doge_dma, aes(x = location, y = hits)) +
 ```{r}
 doge_queries <- str_c(dogecoin$related_queries$value, collapse = " ")
 doge_text <- Corpus(VectorSource(doge_queries))
-doge_matrix <- TermDocumentMatrix(text)
+doge_matrix <- TermDocumentMatrix(doge_text)
 m <- as.matrix(doge_matrix)
 v <- sort(rowSums(m), decreasing = TRUE)
 d <- data.frame(word = names(v), freq = v)
