@@ -59,7 +59,6 @@ How about top 10 DMA? DMA stands for Designated Market Areas, it is used to defi
 
 ```{r}
 top10_doge_dma <- head(dogecoin$interest_by_dma[order(dogecoin$interest_by_dma$hits, decreasing = TRUE), ], n = 10)
-print(top10_doge_dma$location)
 
 ggplot(top10_doge_dma, aes(x = location, y = hits)) +
   geom_bar(stat = "identity", fill = "#4bb9c9") +

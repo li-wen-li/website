@@ -62,18 +62,8 @@ top10_doge_state</code></pre>
 <p>Well, Alaska, as the top state in this list. It really surprised me. I simply cannot relate crypto currency with, I dont know, salmon? aurora?</p>
 <p>How about top 10 DMA? DMA stands for Designated Market Areas, it is used to define television and radio markets, since it covers both metropolitan and suburban areas, I figure it could be our interest to explore the spread of ‘madness of Dogecoin’.</p>
 <pre class="r"><code>top10_doge_dma &lt;- head(dogecoin$interest_by_dma[order(dogecoin$interest_by_dma$hits, decreasing = TRUE), ], n = 10)
-print(top10_doge_dma$location)</code></pre>
-<pre><code>##  [1] &quot;Glendive MT&quot;                           
-##  [2] &quot;Fairbanks AK&quot;                          
-##  [3] &quot;San Diego CA&quot;                          
-##  [4] &quot;Sacramento-Stockton-Modesto CA&quot;        
-##  [5] &quot;Victoria TX&quot;                           
-##  [6] &quot;Bend OR&quot;                               
-##  [7] &quot;San Francisco-Oakland-San Jose CA&quot;     
-##  [8] &quot;Minot-Bismarck-Dickinson(Williston) ND&quot;
-##  [9] &quot;Seattle-Tacoma WA&quot;                     
-## [10] &quot;Los Angeles CA&quot;</code></pre>
-<pre class="r"><code>ggplot(top10_doge_dma, aes(x = location, y = hits)) +
+
+ggplot(top10_doge_dma, aes(x = location, y = hits)) +
   geom_bar(stat = &quot;identity&quot;, fill = &quot;#4bb9c9&quot;) +
   theme_classic() +
   geom_text(aes(label=hits), hjust= -0.1, color=&quot;black&quot;, size=3) + 
