@@ -22,9 +22,18 @@ thumbnail: "images/data-process.png"
 <div id="when-is-data-skewd" class="section level1">
 <h1>When is data skewd?</h1>
 <p>When it comes to skewed data, we can perform several transformations, like Log Transform, Square Root Transform or Inverse Transform. But how do we know if the data is skewed? And what kind of transformation should we perform?</p>
-<p>Typically you can make a plot about your data, and if there is large number of data points on the left side, then the data is Right Skewed, if there is large number of data points on the right side then your data is Left Skewed.</p>
-<div class="figure">
-<img src="figures/skew.png" alt="" />
-<p class="caption">Data Skewness</p>
-</div>
+<p>Typically you can make a plot about your data, and if there is large number of data points on the left side, then the data is Right(positive) Skewed, if there is large number of data points on the right side then your data is Left(negative) Skewed.</p>
+<p><img src="/figures/data_skew.png" alt="Data Skewness" />
+You can also check the skewness statistic yourself:</p>
+<pre class="r"><code>check_skew &lt;- function(x){
+  v = var(x)
+  skewness = sum((x - mean(x))^3)/((length(x)-1)*v^(3/2))
+  return(skewness)
+}</code></pre>
+<p>The value should be close to 0 if the data is about symmetric.</p>
+<p>Another way to decide if the data is skewed is to find out the ratio between the highest value and lowest value, if the ratio is greater than 20, then the data is significanlt skewed.</p>
+<pre class="r"><code>skew_ratio &lt;- function(x){
+  ratio = max(x)/min(x)
+  return(ratio &gt; 20)
+}</code></pre>
 </div>

@@ -22,9 +22,24 @@ And this 'cleaning' process is part of EDA (Exploratory Data Analysis), common s
 
 When it comes to skewed data, we can perform several transformations, like Log Transform, Square Root Transform or Inverse Transform. But how do we know if the data is skewed? And what kind of transformation should we perform?
 
-Typically you can make a plot about your data, and if there is large number of data points on the left side, then the data is Right Skewed, if there is large number of data points on the right side then your data is Left Skewed. 
+Typically you can make a plot about your data, and if there is large number of data points on the left side, then the data is Right(positive) Skewed, if there is large number of data points on the right side then your data is Left(negative) Skewed. 
 
-![Data Skewness](figures/skew.png)
+![Data Skewness](/figures/data_skew.png)
+You can also check the skewness statistic yourself:
+```{r}
+check_skew <- function(x){
+  v = var(x)
+  skewness = sum((x - mean(x))^3)/((length(x)-1)*v^(3/2))
+  return(skewness)
+}
+```
 
+The value should be close to 0 if the data is about symmetric. 
 
-
+Another way to decide if the data is skewed is to find out the ratio between the highest value and lowest value, if the ratio is greater than 20, then the data is significanlt skewed.
+```{r}
+skew_ratio <- function(x){
+  ratio = max(x)/min(x)
+  return(ratio > 20)
+}
+```
