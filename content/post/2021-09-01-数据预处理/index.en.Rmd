@@ -14,7 +14,7 @@ DisableComments: no
 thumbnail: "images/data-process.png"
 ---
 
-#Before modeling on a dataset, often times we need to 'clean the data' first. 
+### Before modeling on a dataset, often times we need to 'clean the data' first.
 
 And this 'cleaning' process is part of EDA (Exploratory Data Analysis), common steps to be done in this process include checking if there exist any missing value, and how the data is distributed, any outliers or skewness. The definition of outlier is quite vague, so it wouldn't be appropriate to remove all outliers if the data points sit far away from the mainstream, one has to make sure its not due to data entry error. One primary technique to resolve outliers is to do data transformation.
 
