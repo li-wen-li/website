@@ -43,3 +43,20 @@ skew_ratio <- function(x){
   return(ratio > 20)
 }
 ```
+
+Now lets try out on a real dataset
+
+```{r}
+data <- readxl::read_excel('~/个人网站/website/content/post/2017_metropolitan_for_fitting.xlsx')
+str(data)
+```
+
+This data has 13 features, and for our interest of data skew, lets look at Median rent only.
+
+```{r}
+library(ggplot2)
+ggplot(data, aes(x = `Median rent`)) + geom_histogram(fill = "#4bb9c9") + theme_classic()
+check_skew(data$`Median rent`)
+skew_ratio(data$`Median rent`)
+
+```
