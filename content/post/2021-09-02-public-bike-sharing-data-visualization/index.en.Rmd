@@ -18,6 +18,19 @@ Main focus of this artical is to explore the data visulization packages _ggplot2
 
 Today we will use the dataset from [__Kaggle: Mark Kaghazgarian__](https://www.kaggle.com/marklvl/bike-sharing-dataset)
 
+Packages needed are listed below:
+
+```{r message=FALSE}
+library(ggplot2) 
+library(dplyr)
+library(ggridges) ## ridge line plot
+library(hrbrthemes)
+library(viridis)
+library(lubridate) ##dealing with date/time
+library(tidyverse)
+library(gganimate)
+```
+
 Here is the data:
 
 ```{r}
@@ -38,8 +51,6 @@ bike_data[,c(2:8)] <- lapply(bike_data[,c(2:8)], factor) ##integer in these colu
 Say, if I wanted to know how the bike rental count was distributed along four different seasons in the year of 2011.
 
 ```{r}
-library(dplyr)
-
 levels(bike_data$season) <- c('Spring', 'Summer', 'Fall', 'Winter')
 bike_2011 <- bike_data[1:365, ]
 bike_2012 <- bike_data[366:730, ]##get the 2011/2012 data
@@ -49,18 +60,8 @@ bike_2011 %>% plot(x = bike_2011$season, y = bike_2011$cnt)
 
 Pretty boring, isn't it? Lets see how we can make better plots with _ggplot2_ and _ggridges_
 
-```{r}
-library(ggplot2) 
-library(ggridges) ## ridge line plot
-library(hrbrthemes)
-library(viridis)
-library(lubridate) ##dealing with date/time
-library(tidyverse)
-library(gganimate)
-```
-
 Lets see how total bike rental counts are distributed along 4 seasons:
-```{r}
+```{r message=FALSE}
 bike_2011 %>% ggplot(aes(x = cnt, y = season,fill = season)) +
   geom_density_ridges(lwd = 0)+
   scale_fill_manual(name = 'Season', values = c("#05f5dd", '#BCFA09','#FA9409','#F3ECF0'))+
@@ -71,7 +72,7 @@ bike_2011 %>% ggplot(aes(x = cnt, y = season,fill = season)) +
 ```
 
 This is how temperatures of each month in 2011 feels like:
-```{r}
+```{r message=FALSE}
 bike_2011 %>% ggplot(aes(x= temp*50, y = mnth, fill = stat(x))) +
   geom_density_ridges_gradient(scale = 2, rel_min_height = 0.01, lwd = 0.2, quantile_lines = TRUE, color = 'white')+
   scale_fill_viridis(name = 'Temperature', option = 'C')+
@@ -82,7 +83,8 @@ bike_2011 %>% ggplot(aes(x= temp*50, y = mnth, fill = stat(x))) +
 ```
 
 What if I want to compare the weekly average bike rental count between 2011 and 2012, in a cool way? You can use _gganimate_ package to do a animation plot.
-```{r}
+
+```{r message=FALSE}
 bike_1 <- bike_data[1:730, ]
 bike_1$dteday <- week(bike_1$dteday) ##week() function from lubridate, to get week number
 
