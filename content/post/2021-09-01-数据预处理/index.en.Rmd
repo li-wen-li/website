@@ -1,5 +1,5 @@
 ---
-title: 数据预处理
+title: Skewed Data Processing
 author: R package build
 date: '2021-09-01'
 slug: []
