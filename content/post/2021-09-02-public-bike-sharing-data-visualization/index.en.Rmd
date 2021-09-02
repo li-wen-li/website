@@ -1,0 +1,109 @@
+---
+title: Public Bike Sharing Data Visualization
+author: R package build
+date: '2021-09-02'
+slug: []
+categories:
+  - Data World
+tags:
+  - Data Visualization
+  - R
+Description: ''
+Tags: []
+Categories: []
+DisableComments: no
+thumbnail: 'images/bike-sharing.jpg'
+---
+
+Main focus of this artical is to explore the data visulization packages _ggplot2_ and _ggridges_
+
+Today we will use the dataset from [__Kaggle: Mark Kaghazgarian__](https://www.kaggle.com/marklvl/bike-sharing-dataset)
+
+Here is the data:
+
+```{r}
+bike_data <- read.csv('~/DATASETS/archive/day.csv')
+str(bike_data)
+```
+
+This data set recorded the public bike rental count from 2011 to 2012 in Washington D.C., and all other weather related information.
+
+Before proceeding with some plots, lets tidy up the data a bit.
+
+```{r}
+bike_data <- bike_data[-1] ## first column is just index number
+bike_data$dteday <- as.Date(bike_data$dteday, format = '%Y-%m-%d')
+bike_data[,c(2:8)] <- lapply(bike_data[,c(2:8)], factor) ##integer in these columns represent different factors/levels, detailed data background info https://www.kaggle.com/marklvl/bike-sharing-dataset
+```
+
+Say, if I wanted to know how the bike rental count was distributed along four different seasons in the year of 2011.
+
+```{r}
+library(dplyr)
+
+levels(bike_data$season) <- c('Spring', 'Summer', 'Fall', 'Winter')
+bike_2011 <- bike_data[1:365, ]
+bike_2012 <- bike_data[366:730, ]##get the 2011/2012 data
+
+bike_2011 %>% plot(x = bike_2011$season, y = bike_2011$cnt)
+```
+
+Pretty boring, isn't it? Lets see how we can make better plots with _ggplot2_ and _ggridges_
+
+```{r}
+library(ggplot2) 
+library(ggridges) ## ridge line plot
+library(hrbrthemes)
+library(viridis)
+library(lubridate) ##dealing with date/time
+library(tidyverse)
+```
+
+Lets see how total bike rental counts are distributed along 4 seasons:
+```{r}
+bike_2011 %>% ggplot(aes(x = cnt, y = season,fill = season)) +
+  geom_density_ridges(lwd = 0)+
+  scale_fill_manual(name = 'Season', values = c("#05f5dd", '#BCFA09','#FA9409','#F3ECF0'))+
+  theme_ridges() +
+  theme(legend.position = "bottom") +
+  labs(title = "Public Bike Rental in Washington D.C.", subtitle = "2011")+
+  xlab('Bike Count')
+```
+
+This is how temperatures of each month in 2011 feels like:
+```{r}
+bike_2011 %>% ggplot(aes(x= temp*50, y = mnth, fill = stat(x))) +
+  geom_density_ridges_gradient(scale = 2, rel_min_height = 0.01, lwd = 0.2, quantile_lines = TRUE, color = 'white')+
+  scale_fill_viridis(name = 'Temperature', option = 'C')+
+  labs(title = 'Temperatures in Washington D.C.(2011)') +
+  ylab('Month')+
+  xlab("Temperature(Celcius)")+
+  theme_ridges()
+```
+
+What if I want to compare the weekly average bike rental count between 2011 and 2012, in a cool way? You can use _gganimate_ package to do a animation plot.
+```{r}
+bike_1 <- bike_data[1:730, ]
+bike_1$dteday <- week(bike_1$dteday) ##week() function from lubridate, to get week number
+
+by_week <- bike_1 %>% select(dteday, yr, cnt) %>% group_by(dteday, yr) %>% summarise(
+  mean_cnt = mean(cnt))
+
+by_week %>% ggplot(aes(x = dteday, y = mean_cnt, group = yr, color = yr))+
+  geom_line()+
+  scale_color_viridis(discrete = TRUE)+
+  theme_ipsum()+
+  scale_color_manual(name = 'Year',labels = c('2011','2012'), values = c("#04FBE1", "#02A9FD"))+
+  ggtitle("Bike Rental in 2011 and 2012")+
+  xlab("Weekly Average")+
+  transition_reveal(dteday)
+```
+
+Pretty awesome, right?
+...
+Who you taling to? No one is reading you blog, Lee
+..
+..
+...
+....
+Its ok

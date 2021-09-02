@@ -59,11 +59,12 @@ You can also check the skewness statistic yourself:</p>
 ##  $ Estimate Total Population : num [1:518] 72697 169747 98623 306000 703505 ...</code></pre>
 <p>This data has 13 features, and for our interest of data skew, lets look at Median rent only.</p>
 <pre class="r"><code>library(ggplot2)
-ggplot(data, aes(x = `Median rent`)) + geom_histogram(fill = &quot;#4bb9c9&quot;) + theme_classic()</code></pre>
-<pre><code>## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
+library(hrbrthemes)</code></pre>
+<pre><code>## NOTE: Either Arial Narrow or Roboto Condensed fonts are required to use these themes.</code></pre>
+<pre><code>##       Please use hrbrthemes::import_roboto_condensed() to install Roboto Condensed and</code></pre>
+<pre><code>##       if Arial Narrow is not on your system, please see https://bit.ly/arialnarrow</code></pre>
+<pre class="r"><code>ggplot(data, aes(x = `Median rent`)) + geom_density(fill = &quot;#4bb9c9&quot;, color=&quot;#e9ecef&quot;,alpha= 1) + theme_ipsum() + ggtitle(&quot;Median Rent&quot;)</code></pre>
 <p><img src="{{< blogdown/postref >}}index.en_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
-<pre class="r"><code>check_skew(data$`Median rent`)</code></pre>
-<pre><code>## [1] 1.701213</code></pre>
 <pre class="r"><code>skew_ratio(data$`Median rent`)</code></pre>
 <pre><code>## [1] FALSE</code></pre>
 </div>

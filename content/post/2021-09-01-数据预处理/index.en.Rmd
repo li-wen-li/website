@@ -55,8 +55,11 @@ This data has 13 features, and for our interest of data skew, lets look at Media
 
 ```{r}
 library(ggplot2)
-ggplot(data, aes(x = `Median rent`)) + geom_histogram(fill = "#4bb9c9") + theme_classic()
-check_skew(data$`Median rent`)
-skew_ratio(data$`Median rent`)
+library(hrbrthemes)
+ggplot(data, aes(x = `Median rent`)) + geom_density(fill = "#4bb9c9", color="#e9ecef",alpha= 1) + theme_ipsum() + ggtitle("Median Rent")
 
+skew_ratio(data$`Median rent`)
 ```
+
+
+Using the function above to check the skewness statistic `r check_skew(data$`Median rent`)`
