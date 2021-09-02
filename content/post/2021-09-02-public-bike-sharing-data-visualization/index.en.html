@@ -1,18 +1,17 @@
 ---
-title: Public Bike Sharing Data Visualization
-author: R package build
+title: "Public Bike Sharing Data Visualization"
+author: "R package build"
 date: '2021-09-02'
 slug: []
-categories:
-  - Data World
+categories: Data World
 tags:
-  - Data Visualization
-  - R
+- Data Visualization
+- R
 Description: ''
 Tags: []
 Categories: []
 DisableComments: no
-thumbnail: 'images/bike-sharing.jpg'
+thumbnail: images/bike-sharing.jpg
 ---
 
 <script src="{{< blogdown/postref >}}index.en_files/header-attrs/header-attrs.js"></script>
@@ -45,3 +44,94 @@ str(bike_data)</code></pre>
 <pre class="r"><code>bike_data &lt;- bike_data[-1] ## first column is just index number
 bike_data$dteday &lt;- as.Date(bike_data$dteday, format = &#39;%Y-%m-%d&#39;)
 bike_data[,c(2:8)] &lt;- lapply(bike_data[,c(2:8)], factor) ##integer in these columns represent different factors/levels, detailed data background info https://www.kaggle.com/marklvl/bike-sharing-dataset</code></pre>
+<p>Say, if I wanted to know how the bike rental count was distributed along four different seasons in the year of 2011.</p>
+<pre class="r"><code>library(dplyr)</code></pre>
+<pre><code>## 
+## Attaching package: &#39;dplyr&#39;</code></pre>
+<pre><code>## The following objects are masked from &#39;package:stats&#39;:
+## 
+##     filter, lag</code></pre>
+<pre><code>## The following objects are masked from &#39;package:base&#39;:
+## 
+##     intersect, setdiff, setequal, union</code></pre>
+<pre class="r"><code>levels(bike_data$season) &lt;- c(&#39;Spring&#39;, &#39;Summer&#39;, &#39;Fall&#39;, &#39;Winter&#39;)
+bike_2011 &lt;- bike_data[1:365, ]
+bike_2012 &lt;- bike_data[366:730, ]##get the 2011/2012 data
+
+bike_2011 %&gt;% plot(x = bike_2011$season, y = bike_2011$cnt)</code></pre>
+<p><img src="{{< blogdown/postref >}}index.en_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
+<p>Pretty boring, isn’t it? Lets see how we can make better plots with <em>ggplot2</em> and <em>ggridges</em></p>
+<pre class="r"><code>library(ggplot2) 
+library(ggridges) ## ridge line plot
+library(hrbrthemes)</code></pre>
+<pre><code>## NOTE: Either Arial Narrow or Roboto Condensed fonts are required to use these themes.</code></pre>
+<pre><code>##       Please use hrbrthemes::import_roboto_condensed() to install Roboto Condensed and</code></pre>
+<pre><code>##       if Arial Narrow is not on your system, please see https://bit.ly/arialnarrow</code></pre>
+<pre class="r"><code>library(viridis)</code></pre>
+<pre><code>## Loading required package: viridisLite</code></pre>
+<pre class="r"><code>library(lubridate) ##dealing with date/time</code></pre>
+<pre><code>## 
+## Attaching package: &#39;lubridate&#39;</code></pre>
+<pre><code>## The following objects are masked from &#39;package:base&#39;:
+## 
+##     date, intersect, setdiff, union</code></pre>
+<pre class="r"><code>library(tidyverse)</code></pre>
+<pre><code>## ── Attaching packages ─────────────────────────────────────── tidyverse 1.3.1 ──</code></pre>
+<pre><code>## ✓ tibble  3.1.3     ✓ purrr   0.3.4
+## ✓ tidyr   1.1.3     ✓ stringr 1.4.0
+## ✓ readr   2.0.1     ✓ forcats 0.5.1</code></pre>
+<pre><code>## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+## x lubridate::as.difftime() masks base::as.difftime()
+## x lubridate::date()        masks base::date()
+## x dplyr::filter()          masks stats::filter()
+## x lubridate::intersect()   masks base::intersect()
+## x dplyr::lag()             masks stats::lag()
+## x lubridate::setdiff()     masks base::setdiff()
+## x lubridate::union()       masks base::union()</code></pre>
+<pre class="r"><code>library(gganimate)</code></pre>
+<p>Lets see how total bike rental counts are distributed along 4 seasons:</p>
+<pre class="r"><code>bike_2011 %&gt;% ggplot(aes(x = cnt, y = season,fill = season)) +
+  geom_density_ridges(lwd = 0)+
+  scale_fill_manual(name = &#39;Season&#39;, values = c(&quot;#05f5dd&quot;, &#39;#BCFA09&#39;,&#39;#FA9409&#39;,&#39;#F3ECF0&#39;))+
+  theme_ridges() +
+  theme(legend.position = &quot;bottom&quot;) +
+  labs(title = &quot;Public Bike Rental in Washington D.C.&quot;, subtitle = &quot;2011&quot;)+
+  xlab(&#39;Bike Count&#39;)</code></pre>
+<pre><code>## Picking joint bandwidth of 282</code></pre>
+<p><img src="{{< blogdown/postref >}}index.en_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
+<p>This is how temperatures of each month in 2011 feels like:</p>
+<pre class="r"><code>bike_2011 %&gt;% ggplot(aes(x= temp*50, y = mnth, fill = stat(x))) +
+  geom_density_ridges_gradient(scale = 2, rel_min_height = 0.01, lwd = 0.2, quantile_lines = TRUE, color = &#39;white&#39;)+
+  scale_fill_viridis(name = &#39;Temperature&#39;, option = &#39;C&#39;)+
+  labs(title = &#39;Temperatures in Washington D.C.(2011)&#39;) +
+  ylab(&#39;Month&#39;)+
+  xlab(&quot;Temperature(Celcius)&quot;)+
+  theme_ridges()</code></pre>
+<pre><code>## Picking joint bandwidth of 1.45</code></pre>
+<p><img src="{{< blogdown/postref >}}index.en_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
+<p>What if I want to compare the weekly average bike rental count between 2011 and 2012, in a cool way? You can use <em>gganimate</em> package to do a animation plot.</p>
+<pre class="r"><code>bike_1 &lt;- bike_data[1:730, ]
+bike_1$dteday &lt;- week(bike_1$dteday) ##week() function from lubridate, to get week number
+
+by_week &lt;- bike_1 %&gt;% select(dteday, yr, cnt) %&gt;% group_by(dteday, yr) %&gt;% summarise(
+  mean_cnt = mean(cnt))</code></pre>
+<pre><code>## `summarise()` has grouped output by &#39;dteday&#39;. You can override using the `.groups` argument.</code></pre>
+<pre class="r"><code>by_week %&gt;% ggplot(aes(x = dteday, y = mean_cnt, group = yr, color = yr))+
+  geom_line()+
+  scale_color_viridis(discrete = TRUE)+
+  theme_ipsum()+
+  scale_color_manual(name = &#39;Year&#39;,labels = c(&#39;2011&#39;,&#39;2012&#39;), values = c(&quot;#04FBE1&quot;, &quot;#02A9FD&quot;))+
+  ggtitle(&quot;Bike Rental in 2011 and 2012&quot;)+
+  xlab(&quot;Weekly Average&quot;)+
+  transition_reveal(dteday)</code></pre>
+<pre><code>## Scale for &#39;colour&#39; is already present. Adding another scale for &#39;colour&#39;,
+## which will replace the existing scale.</code></pre>
+<p><img src="{{< blogdown/postref >}}index.en_files/figure-html/unnamed-chunk-7-1.gif" /><!-- --></p>
+<p>Pretty awesome, right?
+…
+Who you taling to? No one is reading you blog, Lee
+..
+..
+…
+….
+Its ok</p>
