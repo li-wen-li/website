@@ -88,7 +88,7 @@ What if I want to compare the weekly average bike rental count between 2011 and 
 bike_1 <- bike_data[1:730, ]
 bike_1$dteday <- week(bike_1$dteday) ##week() function from lubridate, to get week number
 
-by_week <- bike_1 %>% select(dteday, yr, cnt) %>% group_by(dteday, yr) %>% summarise(
+by_week <- bike_1 %>% group_by(dteday, yr) %>% summarise(
   mean_cnt = mean(cnt))
 
 by_week %>% ggplot(aes(x = dteday, y = mean_cnt, group = yr, color = yr))+
